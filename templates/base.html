@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ username }}的个人博客</title>
+    <link rel="stylesheet" href="/static/boot1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/mystyle.css">
+    <link rel="stylesheet" href="/static/theme/{{ blog.theme }}.css">
+
+</head>
+<body>
+<div class="header">
+    <p>{{ blog.title }} の博客</p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+                {% load mytags %}
+
+                {% get_left_menu username %}
+        </div>
+
+        <div class="col-md-8">
+            {% block page-main %}
+
+            {% endblock %}
+
+        </div>
+    </div>
+</div>
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/boot1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/boot1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/mystyle.css">
+    <link rel="stylesheet" href="/static/theme/{{ blog.theme }}.css">
+    <style>
+        * {
+            margin: 0;
+        }
+        .header {
+            width: 100%;
+            height: 60px;
+            background-color: #369;
+        }
+
+        .content {
+            width: 70%;
+            margin: 20px auto;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header"></div>
+    <div class="content">
+        <h3>添加文章</h3>
+        <form action="" method="post">
+        {% csrf_token %}
+            <div>
+            <label for="">文章标题</label>
+            <input type="text" name="title" class="form-control" style="width: 300px">
+        </div>
+            <div>
+            <p>内容</p>
+            <textarea name="article_content" id="article_content" cols="70" rows="20"></textarea>
+        </div>
+        <input type="submit" value="提交" class="btn btn-success">
+        </form>
+    </div>
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/boot1/js/bootstrap.min.js"></script>
+<script charset="utf-8" src="/static/kindeditor/kindeditor-all-min.js"></script>
+<script>
+        KindEditor.ready(function(K) {
+                window.editor = K.create('#article_content', {
+                    width: "700",
+                    uploadJson:"/upload/",
+                    //传数据要用这参数
+                    extraFileUploadParams:{
+                        csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val(),
+                    },
+                    //默认是叫 imgFIle, 指定名称
+                    filePostName:"upload_img"
+                });
+
+        });
+</script>
+</body>
+</html>

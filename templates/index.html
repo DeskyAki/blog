@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <link rel="stylesheet" href="/static/boot1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/mystyle.css">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">The Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Link</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.user.username %}
+                    <li><a href="#">{{ request.user.username }}</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">个人中心<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout/">注销</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="/login/">登录</a></li>
+                    <li><a href="/reg/">注册</a></li>
+                {% endif %}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<!-- 主页面 开始-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">左侧广告位一</div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">左侧广告位二</div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <!-- 文章列表 开始 -->
+            <div class="article-list">
+                {% for article in article_list %}
+                    <div class="article">
+                        <p class="article-title"><a href="/blog/{{ article.user.username }}/article/{{ article.pk }}/">{{ article.title }}</a></p>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="/blog/{{ article.user.username }}">
+                                    <img class="media-object" src="/media/{{ article.user.avatar }}"
+                                         alt="失敗した" height="60px" width="60px">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    {% if article.desc|length < 150 %}
+                                        {{ article.desc|safe }}
+                                    {% else %}
+                                        {{ article.desc|truncatechars:150 }}
+                                    {% endif %}
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="article-footer">
+                            <span><a href="/blog/{{ article.user.username }}/">{{ article.user.username }}</a></span>发布于
+                            <span>{{ article.create_time|date:'Y-m-d H:i:s' }}</span>
+                            <span class="glyphicon glyphicon-comment">评论({{ article.comment_count }})</span>
+                            <span class="glyphicon glyphicon-thumbs-up"
+                                  style="margin-bottom: 50px">点赞({{ article.up_count }})</span>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+<!--                       文章列表 结束                                          -->
+
+        </div>
+        <div class="col-md-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">右侧广告位一</div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">右侧广告位二</div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--                  主面板结束                    -->
+
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/boot1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/boot1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/mystyle.css">
+</head>
+<body>
+    <div class="container">
+    <div class="row">
+        <form class="form-horizontal col-md-8 col-md-offset-3 login-form log-form"
+              action="/login/" method="post" autocomplete="off">
+            {% csrf_token %}
+            <div class="col-md-offset-4" ><h1 style="color: #ec971f">登陆</h1></div>
+            <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
+                     <span id="helpBlock2" class="help-block">{{ msg.username }}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-6">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+                     <span id="helpBlock2" class="help-block">{{ msg.password }}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-success" id="login-button">登录</button>
+                    <span class="login-error"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/boot1/js/bootstrap.min.js"></script>
+<script>
+    $("#login-button").on("click", function () {
+        let username = $("#username").val();
+        let password = $("#password").val();
+
+        $.ajax({
+            url: "/login/",
+            type: "post",
+            data: {
+                username: username,
+                password: password,
+                csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val(),
+            },
+            success:function (data) {
+                if (data.username){
+                    $("#username").next("span").text(data.username).parent().parent().addClass("has-error");
+                }else{
+                    if (data.password){
+                        $("#password").next("span").text(data.password).parent().parent().addClass("has-error");
+                    }else{
+                          location.href = "/index/";
+                    }
+                }
+            }
+        });
+        
+        $("form input").on("focus", function () {
+            $(this).next().text("").parent().parent().removeClass("has-error")
+        })
+    });
+</script>
+</body>
+</html>

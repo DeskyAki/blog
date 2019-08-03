@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block page-main %}
+    <div class="article-list">
+                {% for article in article_list %}
+                    <div class="article">
+                        <p class="article-title"><a href="/blog/{{ article.user.username }}/article/{{ article.pk }}/">{{ article.title }}</a></p>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="/blog/{{ article.user.username }}">
+                                    <img class="media-object" src="/media/{{ article.user.avatar }}"
+                                         alt="失敗した" height="60px" width="60px">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">{% if article.desc|length < 180 %}
+                                        {{ article.desc }}
+                                    {% else %}
+                                        {{ article.desc|truncatechars:180 }}
+                                    {% endif %}
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="article-footer">
+                            <span><a href="/blog/{{ article.user.username }}/">{{ article.user.username }}</a></span>发布于
+                            <span>{{ article.create_time|date:'Y-m-d H:i:s' }}</span>
+                            <span class="glyphicon glyphicon-comment">评论({{ article.comment_count }})</span>
+                            <span class="glyphicon glyphicon-thumbs-up" style="margin-bottom: 50px">点赞({{ article.up_count }})</span>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+{% endblock %}
